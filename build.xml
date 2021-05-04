@@ -1,0 +1,123 @@
+<project name="jOpenDocument" default="dist" basedir=".">
+
+	<loadproperties srcfile="src/product.properties">
+		<filterchain>
+			<prefixlines prefix="product." />
+		</filterchain>
+	</loadproperties>
+	<!-- works even if called from another ant (e.g. build web.xml) -->
+	<property name="projectName" value="${product.NAME}" />
+	<property name="version" value="${product.VERSION}" />
+	<property name="src.dir" location="src" />
+	<property name="build.dir" location="build" />
+	<property name="dist" value="dist" />
+	<property name="dist.dir" location="${dist}" />
+	<property name="dist.java5.jar" location="${dist.dir}/${projectName}-${version}-jdk5.jar" />
+	<property name="dist.java6.jar" location="${dist.dir}/${projectName}-${version}.jar" />
+	<property name="dist.java6.nodeps.jar" location="${dist.dir}/${projectName}-${version}-nodeps.jar" />
+
+	<target name="clean">
+		<delete dir="${build.dir}" />
+		<delete dir="${dist.dir}" />
+	</target>
+
+	<target name="init">
+		<!-- Create the build directory structure used by compile -->
+	</target>
+
+	<target name="dist.init" depends="clean,init">
+		<mkdir dir="${dist.dir}" />
+		<condition property="isJava5">
+			<matches pattern="1.5.*" string="${java.version}" />
+		</condition>
+	</target>
+
+	<!-- necessary for Common/build-app.xml -->
+	<target name="jar" depends="dist" />
+
+	<target name="dist" depends="dist.init,distJava5,distJava6">
+		<!-- clean up -->
+		<delete dir="${build.dir}" />
+
+		<zip destfile="${dist.dir}/${projectName}-src-${version}.zip">
+			<zipfileset dir="src" prefix="src" />
+			<fileset dir="." includes="template/**" />
+			<fileset dir="." includes="build.xml,LICENSE.txt,NEWS,README,lib/*.jar" />
+		</zip>
+		<delete file="template/Thumbs.db" />
+		<zip destfile="${dist.dir}/${projectName}-template-${version}.zip">
+			<fileset dir="template" />
+		</zip>
+	</target>
+
+	<target name="distJava6" depends="dist.init" unless="isJava5">
+		<echo>Building JDK6+ version</echo>
+		<mkdir dir="${build.dir}" />
+		<javac srcdir="src/" destdir="${build.dir}" includeAntRuntime="false" encoding="utf-8">
+			<compilerarg value="-Xlint:deprecation" />
+			<compilerarg value="-Xlint:unchecked" />
+			<classpath>
+				<fileset dir="lib" includes="**/*.jar" />
+			</classpath>
+		</javac>
+		<fileset dir="lib" includes="*.jar" id="libJars" />
+		<fileset dir="lib" excludes="**" id="emptyFS" />
+		<!-- on jar ensemble tous les jars dependant -->
+		<antcall target="-mkjar">
+			<param name="jar" value="${dist.java6.jar}" />
+			<reference refid="libJars" torefid="jarsToDist" />
+		</antcall>
+		<!-- on jar juste nos classe et on fournit le POM -->
+		<antcall target="-mkjar">
+			<param name="jar" value="${dist.java6.nodeps.jar}" />
+			<reference refid="emptyFS" torefid="jarsToDist" />
+		</antcall>
+		<copy tofile="${dist.dir}/jOpenDocument-${version}.pom" file="jOpenDocument.in.pom">
+			<filterset>
+				<filter token="version" value="${version}" />
+			</filterset>
+		</copy>
+	</target>
+
+	<target name="distJava5" depends="distJava5.ok, distJava5.nok" />
+
+	<target name="distJava5.nok" unless="jre5.dir">
+		<echo message="Not building for java 5 since jre5.dir is not defined" level="warning" />
+	</target>
+
+	<target name="distJava5.ok" depends="dist.init" if="jre5.dir">
+		<!-- check that rt.jar exists otherwise javac silently compile with the java6 rt.jar -->
+		<available property="jre5.validDir" file="${jre5.dir}/lib/rt.jar" />
+		<fail unless="jre5.validDir">
+			Unable to build since ${jre5.dir}/lib/rt.jar doesn't exist.
+		</fail>
+		<echo>Building JDK5 version with ${jre5.dir}</echo>
+		<fail if="isJava5">
+			have to compile with javac 6, as the 5 has a generic bug preventing it from compiling ExnTransformer
+		</fail>
+		<mkdir dir="${build.dir}" />
+		<javac target="1.5" source="1.5" sourcepath="" srcdir="src/" destdir="${build.dir}" bootclasspath="${jre5.dir}/lib/rt.jar" includeAntRuntime="false" encoding="utf-8">
+			<exclude name="org/jopendocument/dom/template/JavaScriptFileTemplate.java" />
+			<exclude name="org/jopendocument/dom/template/engine/ScriptEngineDataModel.java" />
+			<exclude name="**/Test.java" />
+			<classpath>
+				<fileset dir="lib" includes="**/*.jar" />
+			</classpath>
+		</javac>
+		<antcall target="-mkjar" inheritRefs="true">
+			<param name="jar" value="${dist.java5.jar}" />
+		</antcall>
+	</target>
+
+	<target name="-mkjar">
+		<!-- mimic eclipse -->
+		<copy todir="${build.dir}">
+			<fileset dir="src" excludes="**/*.java" />
+		</copy>
+		<jar destfile="${jar}" basedir="${build.dir}" duplicate="preserve" filesetmanifest="mergewithoutmain">
+			<metainf file="LICENSE.txt" />
+			<zipgroupfileset refid="jarsToDist" />
+		</jar>
+	</target>
+
+</project>

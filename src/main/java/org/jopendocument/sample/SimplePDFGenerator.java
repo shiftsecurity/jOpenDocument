@@ -4,6 +4,7 @@ import java.awt.Graphics2D;
 import java.io.File;
 import java.io.FileOutputStream;
 
+import com.itextpdf.awt.PdfPrinterGraphics2D;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.PageSize;
 import com.itextpdf.text.Rectangle;
@@ -27,7 +28,7 @@ public class SimplePDFGenerator {
 
             // Open the PDF document
             Document document = new Document(PageSize.A4);
-           
+
             File outFile = new File("invoice.pdf");
 
             PdfDocument pdf = new PdfDocument();
@@ -44,10 +45,10 @@ public class SimplePDFGenerator {
             PdfContentByte cb = writer.getDirectContent();
             PdfTemplate tp = cb.createTemplate(w, h);
 
-            Graphics2D g2 = tp.createPrinterGraphics(w, h, null);
+            Graphics2D g2 = new PdfPrinterGraphics2D(tp, w, h, null);
             // If you want to prevent copy/paste, you can use
             // g2 = tp.createGraphicsShapes(w, h, true, 0.9f);
-            
+
             tp.setWidth(w);
             tp.setHeight(h);
 
@@ -55,7 +56,7 @@ public class SimplePDFGenerator {
             ODTRenderer renderer = new ODTRenderer(doc);
             renderer.setIgnoreMargins(true);
             renderer.setPaintMaxResolution(true);
-            
+
             // Scale the renderer to fit width
             renderer.setResizeFactor(renderer.getPrintWidth() / w);
             // Render
@@ -75,6 +76,6 @@ public class SimplePDFGenerator {
         }
         long t2=System.nanoTime();
         System.out.println("Time:"+(t2-t1)/(1000*1000)+" ms");
-        
+
     }
 }

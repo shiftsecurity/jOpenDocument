@@ -28,7 +28,7 @@ public class LittleEndianInputStream extends FilterInputStream {
      * in argument.
      * 
      * @param in the underlying input stream.
-     * @see java.io.FilterInputStream#out
+     * @see FilterInputStream#out
      */
     public LittleEndianInputStream(InputStream in) {
         super(in);

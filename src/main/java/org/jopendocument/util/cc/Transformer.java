@@ -15,7 +15,7 @@
 
 package org.jopendocument.util.cc;
 
-public abstract class Transformer<E, T> implements ITransformer<E, T>, IClosure<E>, org.apache.commons.collections.Transformer {
+public abstract class Transformer<E, T> implements ITransformer<E, T>, IClosure<E>, org.apache.commons.collections4.Transformer {
 
     private static final ITransformer<Object, Object> nopTransf = new ITransformer<Object, Object>() {
         @Override

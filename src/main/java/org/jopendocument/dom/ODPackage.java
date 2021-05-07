@@ -425,7 +425,7 @@ public class ODPackage {
             final byte[] m = (byte[]) me.getData();
             try {
                 final Map<String, String> manifestEntries = Manifest.parse(new ByteArrayInputStream(m));
-                for (final Map.Entry<String, String> e : manifestEntries.entrySet()) {
+                for (final Entry<String, String> e : manifestEntries.entrySet()) {
                     final String path = e.getKey();
                     final String type = e.getValue();
                     final ODPackageEntry entry = this.files.get(path);

@@ -152,7 +152,7 @@ public class SpreadSheet extends ODDocument {
     private static String tableNamePattern = "\\$?([^\\Q. '[]*?:/\\\\E]+|'([^']|'')+')";
     // added parens to capture cell addresses
     // \1 is sheet name, \4 cell address, \6 second sheet name, \9 second cell address
-    static final Pattern cellRangePattern = java.util.regex.Pattern.compile("(" + tableNamePattern + ")?\\.(\\$?[A-Z]+\\$?[0-9]+)(:(" + tableNamePattern + ")?\\.(\\$?[A-Z]+\\$?[0-9]+))?");
+    static final Pattern cellRangePattern = Pattern.compile("(" + tableNamePattern + ")?\\.(\\$?[A-Z]+\\$?[0-9]+)(:(" + tableNamePattern + ")?\\.(\\$?[A-Z]+\\$?[0-9]+))?");
 
     // see 9.2.1 of OpenDocument-v1.2-cs01-part1
     static final Pattern tableNameQuoteQuotePattern = Pattern.compile("''", Pattern.LITERAL);

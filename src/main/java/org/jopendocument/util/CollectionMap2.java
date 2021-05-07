@@ -312,7 +312,7 @@ public abstract class CollectionMap2<K, C extends Collection<V>, V> extends Abst
     }
 
     @Override
-    public Set<Map.Entry<K, C>> entrySet() {
+    public Set<Entry<K, C>> entrySet() {
         if (getMode() == Mode.NULL_FORBIDDEN) {
             // prevent null insertion
             // MAYBE cache
@@ -322,11 +322,11 @@ public abstract class CollectionMap2<K, C extends Collection<V>, V> extends Abst
         }
     }
 
-    private final class EntrySet extends AbstractCollection<Map.Entry<K, C>> implements Set<Map.Entry<K, C>> {
+    private final class EntrySet extends AbstractCollection<Entry<K, C>> implements Set<Entry<K, C>> {
 
-        private final Set<Map.Entry<K, C>> delegate;
+        private final Set<Entry<K, C>> delegate;
 
-        public EntrySet(final Set<java.util.Map.Entry<K, C>> delegate) {
+        public EntrySet(final Set<Entry<K, C>> delegate) {
             super();
             this.delegate = delegate;
         }
@@ -352,10 +352,10 @@ public abstract class CollectionMap2<K, C extends Collection<V>, V> extends Abst
         }
 
         @Override
-        public Iterator<Map.Entry<K, C>> iterator() {
-            return new Iterator<Map.Entry<K, C>>() {
+        public Iterator<Entry<K, C>> iterator() {
+            return new Iterator<Entry<K, C>>() {
 
-                private final Iterator<Map.Entry<K, C>> delegateIter = EntrySet.this.delegate.iterator();
+                private final Iterator<Entry<K, C>> delegateIter = EntrySet.this.delegate.iterator();
 
                 @Override
                 public boolean hasNext() {
@@ -363,9 +363,9 @@ public abstract class CollectionMap2<K, C extends Collection<V>, V> extends Abst
                 }
 
                 @Override
-                public Map.Entry<K, C> next() {
-                    final Map.Entry<K, C> delegate = this.delegateIter.next();
-                    return new Map.Entry<K, C>() {
+                public Entry<K, C> next() {
+                    final Entry<K, C> delegate = this.delegateIter.next();
+                    return new Entry<K, C>() {
                         @Override
                         public K getKey() {
                             return delegate.getKey();
@@ -422,7 +422,7 @@ public abstract class CollectionMap2<K, C extends Collection<V>, V> extends Abst
     }
 
     public void putAllCollections(final Map<? extends K, ? extends Collection<? extends V>> m) {
-        for (final Map.Entry<? extends K, ? extends Collection<? extends V>> e : m.entrySet()) {
+        for (final Entry<? extends K, ? extends Collection<? extends V>> e : m.entrySet()) {
             this.putCollection(e.getKey(), e.getValue());
         }
     }
@@ -463,21 +463,21 @@ public abstract class CollectionMap2<K, C extends Collection<V>, V> extends Abst
 
     @Override
     public final void merge(final Map<? extends K, ? extends Collection<? extends V>> mm) {
-        for (final Map.Entry<? extends K, ? extends Collection<? extends V>> e : mm.entrySet()) {
+        for (final Entry<? extends K, ? extends Collection<? extends V>> e : mm.entrySet()) {
             this.addAll(e.getKey(), e.getValue());
         }
     }
 
     @Override
     public final void mergeScalarMap(final Map<? extends K, ? extends V> scalarMap) {
-        for (final Map.Entry<? extends K, ? extends V> e : scalarMap.entrySet()) {
+        for (final Entry<? extends K, ? extends V> e : scalarMap.entrySet()) {
             this.add(e.getKey(), e.getValue());
         }
     }
 
     @Override
-    public final boolean remove(final K k, final V v) {
-        return this.removeAll(k, Collections.singleton(v));
+    public final boolean remove(final Object k, final Object v) {
+        return this.removeAll((K)k, Collections.singleton((V)v));
     }
 
     @Override
@@ -485,7 +485,7 @@ public abstract class CollectionMap2<K, C extends Collection<V>, V> extends Abst
         return this.removeAll(k, v, null);
     }
 
-    private final boolean removeAll(final K k, final Collection<? extends V> v, final Iterator<Map.Entry<K, C>> iter) {
+    private final boolean removeAll(final K k, final Collection<? extends V> v, final Iterator<Entry<K, C>> iter) {
         boolean removeK = false;
         boolean modified = false;
         if (getMode() == Mode.NULL_MEANS_ALL) {
@@ -531,9 +531,9 @@ public abstract class CollectionMap2<K, C extends Collection<V>, V> extends Abst
     public final boolean removeAll(final Map<? extends K, ? extends Collection<? extends V>> mm) {
         boolean modified = false;
         // iterate on this to allow mm.removeAll(mm)
-        final Iterator<Map.Entry<K, C>> iter = this.entrySet().iterator();
+        final Iterator<Entry<K, C>> iter = this.entrySet().iterator();
         while (iter.hasNext()) {
-            final Map.Entry<K, C> e = iter.next();
+            final Entry<K, C> e = iter.next();
             final K key = e.getKey();
             if (mm.containsKey(key))
                 modified |= this.removeAll(key, mm.get(key), iter);
@@ -546,7 +546,7 @@ public abstract class CollectionMap2<K, C extends Collection<V>, V> extends Abst
         boolean modified = false;
         // incompatible types, allowing removal without ConcurrentModificationException
         assert m != this;
-        for (final Map.Entry<? extends K, ? extends V> e : m.entrySet()) {
+        for (final Entry<? extends K, ? extends V> e : m.entrySet()) {
             modified |= this.remove(e.getKey(), e.getValue());
         }
         return modified;
@@ -579,9 +579,9 @@ public abstract class CollectionMap2<K, C extends Collection<V>, V> extends Abst
 
     private final Set<K> removeAll(final boolean emptyOrNull) {
         final Set<K> removed = new HashSet<K>();
-        final Iterator<Map.Entry<K, C>> iter = this.entrySet().iterator();
+        final Iterator<Entry<K, C>> iter = this.entrySet().iterator();
         while (iter.hasNext()) {
-            final Map.Entry<K, C> e = iter.next();
+            final Entry<K, C> e = iter.next();
             final C val = e.getValue();
             if ((emptyOrNull && val != null && val.isEmpty()) || (!emptyOrNull && val == null)) {
                 iter.remove();
@@ -660,7 +660,7 @@ public abstract class CollectionMap2<K, C extends Collection<V>, V> extends Abst
         // allValues has a reference to this
         result.allValues = null;
         // clone each collection value
-        for (final Map.Entry<K, C> entry : result.entrySet()) {
+        for (final Entry<K, C> entry : result.entrySet()) {
             final C coll = entry.getValue();
             entry.setValue(createCollection(coll));
         }

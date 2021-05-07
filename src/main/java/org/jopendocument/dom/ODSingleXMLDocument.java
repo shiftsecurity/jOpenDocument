@@ -48,7 +48,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import org.apache.commons.collections.Transformer;
+import org.apache.commons.collections4.Transformer;
 import org.jdom.Attribute;
 import org.jdom.Content;
 import org.jdom.DocType;
@@ -98,7 +98,7 @@ public class ODSingleXMLDocument extends ODXMLDocument implements Cloneable {
 
             ELEMS_ORDER.put(v, children);
 
-            final Map<Tuple2<Namespace, String>, ContentPart> m = new HashMap<Tuple2<Namespace, String>, ODSingleXMLDocument.ContentPart>(ContentPart.values().length);
+            final Map<Tuple2<Namespace, String>, ContentPart> m = new HashMap<Tuple2<Namespace, String>, ContentPart>(ContentPart.values().length);
             boolean beforeNull = true;
             for (final Set<Element> s : children) {
                 if (s == null) {
@@ -1045,7 +1045,7 @@ public class ODSingleXMLDocument extends ODXMLDocument implements Cloneable {
     protected final void detachDuplicate(Element elem) throws JDOMException {
         final String singularName = elem.getName().substring(0, elem.getName().length() - 1);
         final List thisNames = getXPath("./text:" + singularName + "s/text:" + singularName + "/@text:name").selectNodes(getChild("body"));
-        org.apache.commons.collections.CollectionUtils.transform(thisNames, new Transformer() {
+        org.apache.commons.collections4.CollectionUtils.transform(thisNames, new Transformer() {
             public Object transform(Object obj) {
                 return ((Attribute) obj).getValue();
             }
@@ -1212,7 +1212,7 @@ public class ODSingleXMLDocument extends ODXMLDocument implements Cloneable {
         // les styles de ce document
         List thisElemNames = xp.selectNodes(thisParent);
         // on transforme la liste d'attributs en liste de String
-        org.apache.commons.collections.CollectionUtils.transform(thisElemNames, new Transformer() {
+        org.apache.commons.collections4.CollectionUtils.transform(thisElemNames, new Transformer() {
             public Object transform(Object obj) {
                 return ((Attribute) obj).getValue();
             }

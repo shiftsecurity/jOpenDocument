@@ -91,7 +91,7 @@ public abstract class AbstractMapDecorator<K, V> implements Map<K, V>, Cloneable
     }
 
     @Override
-    public Set<java.util.Map.Entry<K, V>> entrySet() {
+    public Set<Entry<K, V>> entrySet() {
         return this.delegate.entrySet();
     }
 

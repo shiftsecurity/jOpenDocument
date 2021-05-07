@@ -54,7 +54,7 @@ public class SideStyleProperties extends StyleProperties {
      * @see #getBorder(Side)
      */
     public final Map<Side, String> getBorders() {
-        final Map<Side, String> res = new HashMap<SideStyleProperties.Side, String>();
+        final Map<Side, String> res = new HashMap<Side, String>();
         for (final Side s : Side.values()) {
             final String b = this.getBorder(s);
             if (b != null)

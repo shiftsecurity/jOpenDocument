@@ -24,7 +24,7 @@ import javax.script.ScriptException;
 import javax.script.SimpleBindings;
 
 /**
- * A data model using a {@link javax.script.ScriptEngine}.
+ * A data model using a {@link ScriptEngine}.
  * 
  * @author Sylvain
  */

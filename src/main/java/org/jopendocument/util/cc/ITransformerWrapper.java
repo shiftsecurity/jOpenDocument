@@ -17,9 +17,9 @@ package org.jopendocument.util.cc;
 
 public class ITransformerWrapper<E, T> extends Transformer<E, T> {
 
-    private final org.apache.commons.collections.Transformer transf;
+    private final org.apache.commons.collections4.Transformer transf;
 
-    public ITransformerWrapper(final org.apache.commons.collections.Transformer transf) {
+    public ITransformerWrapper(final org.apache.commons.collections4.Transformer transf) {
         super();
         this.transf = transf;
     }

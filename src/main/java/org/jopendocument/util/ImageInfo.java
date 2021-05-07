@@ -1102,7 +1102,7 @@ public class ImageInfo {
 
     /**
      * Set the input stream to the argument stream (or file). Note that
-     * {@link java.io.RandomAccessFile} implements {@link java.io.DataInput}.
+     * {@link java.io.RandomAccessFile} implements {@link DataInput}.
      * 
      * @param dataInput the input stream to read from
      */

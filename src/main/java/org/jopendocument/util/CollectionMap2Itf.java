@@ -89,7 +89,7 @@ public interface CollectionMap2Itf<K, C extends Collection<V>, V> extends Map<K,
      */
     public void mergeScalarMap(final Map<? extends K, ? extends V> scalarMap);
 
-    public boolean remove(final K k, final V v);
+    public boolean remove(final Object k, final Object v);
 
     public boolean removeAll(final K k, final Collection<? extends V> v);
 

@@ -934,7 +934,7 @@ public final class FileUtils {
     /**
      * An escaper suitable for producing valid filenames.
      */
-    public static final Escaper FILENAME_ESCAPER = new StringUtils.Escaper('\'', 'Q');
+    public static final Escaper FILENAME_ESCAPER = new Escaper('\'', 'Q');
 
     static private final Pattern CONTROL_PATTERN = Pattern.compile("[\\p{IsCc}\\p{IsCf}]+");
     static private final Pattern WS_PATTERN = Pattern.compile("\\p{javaWhitespace}+");

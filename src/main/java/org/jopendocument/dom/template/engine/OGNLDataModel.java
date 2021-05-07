@@ -43,7 +43,8 @@ public class OGNLDataModel extends DataModel {
     public OGNLDataModel(OGNLDataModel dm) {
         this.root = dm.root;
         final Map<String, Object> copy = new HashMap<String, Object>(dm.context);
-        this.context = Ognl.addDefaultContext(Ognl.getRoot(dm.context), Ognl.getClassResolver(dm.context), Ognl.getTypeConverter(dm.context), Ognl.getMemberAccess(dm.context), copy);
+//        this.context = Ognl.addDefaultContext(Ognl.getRoot(dm.context), Ognl.getClassResolver(dm.context), Ognl.getTypeConverter(dm.context), Ognl.getMemberAccess(dm.context), copy);
+        this.context = Ognl.addDefaultContext(Ognl.getRoot(dm.context), copy);
     }
 
     @Override

@@ -30,7 +30,7 @@ import java.util.Set;
 import java.util.Timer;
 import java.util.logging.Level;
 
-import org.apache.commons.collections.map.LazyMap;
+import org.apache.commons.collections4.map.LazyMap;
 
 /**
  * To keep results computed from some data. The results will be automatically invalidated after some
@@ -104,7 +104,7 @@ public class ICache<K, V, D> {
 
     @SuppressWarnings("unchecked")
     public final void setWatcherFactory(final CacheWatcherFactory<K, D> f) {
-        this.watchers = LazyMap.decorate(new HashMap(), new Transformer<D, CacheWatcher<K, D>>() {
+        this.watchers = LazyMap.lazyMap(new HashMap<K, D>(), new Transformer<D, CacheWatcher<K, D>>() {
 
             @Override
             public CacheWatcher<K, D> transformChecked(D input) {

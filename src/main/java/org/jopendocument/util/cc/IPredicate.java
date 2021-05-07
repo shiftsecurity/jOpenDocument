@@ -15,7 +15,7 @@
 
 package org.jopendocument.util.cc;
 
-import org.apache.commons.collections.Predicate;
+import org.apache.commons.collections4.Predicate;
 
 public abstract class IPredicate<E> implements Predicate {
 

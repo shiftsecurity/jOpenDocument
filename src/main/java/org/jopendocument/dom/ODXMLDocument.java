@@ -117,7 +117,7 @@ public class ODXMLDocument {
         this.childCreator = new ChildCreator(this.content.getRootElement(), ELEMS_ORDER.get(this.getVersion()));
         this.styleNamesLast = new LinkedHashMap<String, Integer>(4, 0.75f, true) {
             @Override
-            protected boolean removeEldestEntry(java.util.Map.Entry<String, Integer> eldest) {
+            protected boolean removeEldestEntry(Map.Entry<String, Integer> eldest) {
                 return this.size() > 15;
             }
         };
@@ -401,7 +401,7 @@ public class ODXMLDocument {
      * <code>lindex</code> of <code>elem</code>.
      * 
      * @param elem local element, if <code>null</code> add to rpath see
-     *        {@link #mergeAll(ODXMLDocument, String, org.jopendocument.dom.ODXMLDocument.ElementTransformer)}
+     *        {@link #mergeAll(ODXMLDocument, String, ElementTransformer)}
      *        .
      * @param lindex local index beneath lpath, < 0 meaning the end, ignored if elem is
      *        <code>null</code>.

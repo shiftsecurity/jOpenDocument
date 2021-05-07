@@ -188,8 +188,8 @@ public class Processor<E> {
 
     private String display(Object value) {
         final String res;
-        if (value instanceof org.jdom.Element) {
-            res = JDOMUtils.output((org.jdom.Element) value);
+        if (value instanceof Element) {
+            res = JDOMUtils.output((Element) value);
         } else {
             res = value.toString();
         }

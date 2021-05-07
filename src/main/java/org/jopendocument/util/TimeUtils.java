@@ -113,7 +113,7 @@ public class TimeUtils {
      * 
      * @param d a duration.
      * @return the seconds, never <code>null</code>.
-     * @see Duration#getField(javax.xml.datatype.DatatypeConstants.Field)
+     * @see Duration#getField(Field)
      * @see Duration#getMinutes()
      */
     static public final BigDecimal getSeconds(final Duration d) {

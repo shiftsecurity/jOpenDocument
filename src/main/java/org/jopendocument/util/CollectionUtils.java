@@ -15,6 +15,7 @@
 
 package org.jopendocument.util;
 
+import org.apache.commons.collections4.Predicate;
 import org.jopendocument.util.cc.IClosure;
 import org.jopendocument.util.cc.IPredicate;
 import org.jopendocument.util.cc.ITransformer;
@@ -223,12 +224,12 @@ public class CollectionUtils {
         delete(l, from, -1);
     }
 
-    public static <T> void filter(Collection<T> collection, IPredicate<? super T> predicate) {
-        org.apache.commons.collections.CollectionUtils.filter(collection, predicate);
+    public static <T> void filter(Collection<T> collection, Predicate<? super T> predicate) {
+        org.apache.commons.collections4.CollectionUtils.filter(collection, predicate);
     }
 
-    public static <T> boolean exists(Collection<T> collection, IPredicate<? super T> predicate) {
-        return org.apache.commons.collections.CollectionUtils.exists(collection, predicate);
+    public static <T> boolean exists(Collection<T> collection, Predicate<? super T> predicate) {
+        return org.apache.commons.collections4.IterableUtils.matchesAny(collection, predicate);
     }
 
     /**
@@ -357,7 +358,7 @@ public class CollectionUtils {
     }
 
     static public <C extends Collection<?>> boolean containsAny(final C coll1, final C coll2) {
-        return org.apache.commons.collections.CollectionUtils.containsAny(coll1, coll2);
+        return org.apache.commons.collections4.CollectionUtils.containsAny(coll1, coll2);
     }
 
     /**
@@ -449,7 +450,7 @@ public class CollectionUtils {
     // avoid name collision causing eclipse bug https://bugs.eclipse.org/bugs/show_bug.cgi?id=319603
     @SuppressWarnings("unchecked")
     public static <T> Collection<T> intersection(final Collection<T> a, final Collection<T> b) {
-        return org.apache.commons.collections.CollectionUtils.intersection(a, b);
+        return org.apache.commons.collections4.CollectionUtils.intersection(a, b);
     }
 
     /**
@@ -545,12 +546,12 @@ public class CollectionUtils {
 
     @SuppressWarnings("unchecked")
     public static <T> Collection<T> subtract(final Collection<T> a, final Collection<? extends T> b) {
-        return org.apache.commons.collections.CollectionUtils.subtract(a, b);
+        return org.apache.commons.collections4.CollectionUtils.subtract(a, b);
     }
 
     @SuppressWarnings("unchecked")
     public static <T> Collection<T> substract(final Collection<T> a, final Collection<? extends T> b) {
-        return org.apache.commons.collections.CollectionUtils.subtract(a, b);
+        return org.apache.commons.collections4.CollectionUtils.subtract(a, b);
     }
 
     public static final <T> T coalesce(T o1, T o2) {

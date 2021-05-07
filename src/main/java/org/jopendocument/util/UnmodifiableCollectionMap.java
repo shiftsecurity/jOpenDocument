@@ -34,7 +34,7 @@ class UnmodifiableCollectionMap<K, C extends Collection<V>, V> extends AbstractM
 
         private final Map<K, C> del;
         private transient Collection<C> values;
-        private transient Set<Map.Entry<K, C>> entrySet;
+        private transient Set<Entry<K, C>> entrySet;
 
         protected UnmodifiableMap(Map<K, C> delegate) {
             super(Collections.unmodifiableMap(delegate));
@@ -58,7 +58,7 @@ class UnmodifiableCollectionMap<K, C extends Collection<V>, V> extends AbstractM
 
                 @Override
                 public Iterator<C> iterator() {
-                    final Iterator<Map.Entry<K, C>> iter = entrySet().iterator();
+                    final Iterator<Entry<K, C>> iter = entrySet().iterator();
                     return new Iterator<C>() {
 
                         @Override
@@ -87,10 +87,10 @@ class UnmodifiableCollectionMap<K, C extends Collection<V>, V> extends AbstractM
         }
 
         @Override
-        public final Set<Map.Entry<K, C>> entrySet() {
-            final Set<Map.Entry<K, C>> es = this.entrySet;
-            return es != null ? es : (this.entrySet = new AbstractSet<Map.Entry<K, C>>() {
-                private final Set<Map.Entry<K, C>> delegateES = UnmodifiableMap.super.entrySet();
+        public final Set<Entry<K, C>> entrySet() {
+            final Set<Entry<K, C>> es = this.entrySet;
+            return es != null ? es : (this.entrySet = new AbstractSet<Entry<K, C>>() {
+                private final Set<Entry<K, C>> delegateES = UnmodifiableMap.super.entrySet();
 
                 @Override
                 public boolean contains(Object o) {
@@ -98,9 +98,9 @@ class UnmodifiableCollectionMap<K, C extends Collection<V>, V> extends AbstractM
                 }
 
                 @Override
-                public Iterator<Map.Entry<K, C>> iterator() {
-                    final Iterator<Map.Entry<K, C>> iter = this.delegateES.iterator();
-                    return new Iterator<Map.Entry<K, C>>() {
+                public Iterator<Entry<K, C>> iterator() {
+                    final Iterator<Entry<K, C>> iter = this.delegateES.iterator();
+                    return new Iterator<Entry<K, C>>() {
 
                         @Override
                         public boolean hasNext() {
@@ -108,9 +108,9 @@ class UnmodifiableCollectionMap<K, C extends Collection<V>, V> extends AbstractM
                         }
 
                         @Override
-                        public Map.Entry<K, C> next() {
-                            final Map.Entry<K, C> orig = iter.next();
-                            return new Map.Entry<K, C>() {
+                        public Entry<K, C> next() {
+                            final Entry<K, C> orig = iter.next();
+                            return new Entry<K, C>() {
 
                                 @Override
                                 public K getKey() {
@@ -229,7 +229,7 @@ class UnmodifiableCollectionMap<K, C extends Collection<V>, V> extends AbstractM
     }
 
     @Override
-    public boolean remove(final K k, final V v) {
+    public boolean remove(final Object k, final Object v) {
         throw new UnsupportedOperationException();
     }
 

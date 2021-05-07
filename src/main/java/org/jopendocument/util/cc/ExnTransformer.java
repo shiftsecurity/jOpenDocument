@@ -17,7 +17,7 @@ package org.jopendocument.util.cc;
 
 import org.jopendocument.util.ExceptionUtils;
 
-import org.apache.commons.collections.Transformer;
+import org.apache.commons.collections4.Transformer;
 
 /**
  * Transformer able to throw an exception.

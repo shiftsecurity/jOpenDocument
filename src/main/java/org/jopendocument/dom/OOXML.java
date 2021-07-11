@@ -657,7 +657,8 @@ public abstract class OOXML implements Comparable<OOXML> {
         }
 
         private Schema createSchema(final String name) throws SAXException {
-            return SchemaFactory.newInstance(XMLConstants.RELAXNG_NS_URI).newSchema(getClass().getResource("oofficeDTDs/" + name));
+            System.setProperty(SchemaFactory.class.getName() + ":" + XMLConstants.RELAXNG_NS_URI, "com.thaiopensource.relaxng.jaxp.XMLSyntaxSchemaFactory");
+            return SchemaFactory.newInstance(XMLConstants.RELAXNG_NS_URI).newSchema(getClass().getResource("/oofficeDTDs/" + name));
         }
 
         private synchronized Schema getSchema() throws SAXException {

@@ -75,7 +75,7 @@ public class OOUtils {
     static public SAXBuilder getBuilderLoadDTD() {
         SAXBuilder builder = new SAXBuilder() {
             public Document build(InputSource in) throws JDOMException, IOException {
-                in.setSystemId(OOUtils.class.getResource("oofficeDTDs/").toExternalForm());
+                in.setSystemId(OOUtils.class.getResource("/oofficeDTDs/").toExternalForm());
                 return super.build(in);
             }
         };

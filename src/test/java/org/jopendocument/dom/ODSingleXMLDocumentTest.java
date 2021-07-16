@@ -286,7 +286,7 @@ public class ODSingleXMLDocumentTest {
 
     @Test
     public void testAddParagraph() throws Exception {
-        final TextDocument single = new ODPackage(this.getClass().getResourceAsStream("styles.odt")).getTextDocument();
+        final TextDocument single = new ODPackage(this.getClass().getResourceAsStream("/styles.odt")).getTextDocument();
         try {
             single.add(new Paragraph(XMLFormatVersion.getOOo()));
             fail("Different version");
@@ -595,7 +595,7 @@ public class ODSingleXMLDocumentTest {
 
         // test getParentStyle()
         {
-            final TextDocument textDoc = new ODPackage(this.getClass().getResourceAsStream("styles.odt")).getTextDocument();
+            final TextDocument textDoc = new ODPackage(this.getClass().getResourceAsStream("/styles.odt")).getTextDocument();
             final Paragraph p = textDoc.getParagraph(1);
             assertEquals("paragraph auto style : +14", p.getCharacterContent());
             final ParagraphStyle pStyle = p.getStyle();

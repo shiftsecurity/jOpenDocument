@@ -37,7 +37,7 @@ public class SpreadSheetViewerDemo1 {
 
 		// Load the spreadsheet.
 		final OpenDocument doc = new OpenDocument();
-		URL url = SpreadSheetViewerDemo1.class.getResource("invoice.ods");
+		URL url = SpreadSheetViewerDemo1.class.getResource("/sample/invoice.ods");
 		doc.loadFrom(url);
 
 		// Show time !

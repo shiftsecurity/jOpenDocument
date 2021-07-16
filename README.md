@@ -1,6 +1,6 @@
 # jOpenDocument
 
-[![](https://jitpack.io/v/ogasawara-shiftsecurity/jOpenDocument.svg)](https://jitpack.io/#ogasawara-shiftsecurity/jOpenDocument)
+[![](https://jitpack.io/v/naruoga/jOpenDocument.svg)](https://jitpack.io/#naruoga/jOpenDocument)
 
 This project is a fork to modernize http://www.jopendocument.org/.
 

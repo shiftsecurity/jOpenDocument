@@ -1,10 +1,16 @@
 name: Maven build
 
 on:
+  workflow_dispatch:
+    inputs:
+      date:
+        description: 'date'
+        required: false
   push:
     branches: [ $default-branch ]
   pull_request:
     branches: [ $default-branch ]
+
 
 jobs:
   build-on-jdk8:

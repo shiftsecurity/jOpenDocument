@@ -122,7 +122,7 @@ public class DataStyleTest extends TestCase {
     }
 
     public void testFormat() throws Exception {
-        final ODPackage pkg = new ODPackage(this.getClass().getResourceAsStream("cellFormat.ods"));
+        final ODPackage pkg = new ODPackage(this.getClass().getResourceAsStream("/cellFormat.ods"));
         final Sheet sheet = pkg.getSpreadSheet().getSheet(0);
 
         // * test that the framework format as OpenOffice

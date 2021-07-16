@@ -107,7 +107,7 @@ public class ODSingleXMLDocumentTest {
     }
 
     private ODPackage createPackage(final String name) throws IOException {
-        return new ODPackage(this.getClass().getResourceAsStream(name + "." + ContentType.TEXT.getVersioned(this.version).getExtension()));
+        return new ODPackage(this.getClass().getResourceAsStream("/" + name + "." + ContentType.TEXT.getVersioned(this.version).getExtension()));
     }
 
     private void assertValid(final ODSingleXMLDocument single) {
@@ -243,10 +243,10 @@ public class ODSingleXMLDocumentTest {
 
     @Test
     public void testAdd() throws Exception {
-        final ODSingleXMLDocument single = new ODPackage(this.getClass().getResourceAsStream("empty.odt")).toSingle();
+        final ODSingleXMLDocument single = new ODPackage(this.getClass().getResourceAsStream("/empty.odt")).toSingle();
         // really empty
         single.getBody().removeContent();
-        final ODSingleXMLDocument single2 = new ODPackage(this.getClass().getResourceAsStream("styles.odt")).toSingle();
+        final ODSingleXMLDocument single2 = new ODPackage(this.getClass().getResourceAsStream("/styles.odt")).toSingle();
         final int single2PCount = single2.getPackage().getTextDocument().getParagraphs().getCount();
         single.add(single2);
         assertValid(single);
@@ -286,7 +286,7 @@ public class ODSingleXMLDocumentTest {
 
     @Test
     public void testAddParagraph() throws Exception {
-        final TextDocument single = new ODPackage(this.getClass().getResourceAsStream("styles.odt")).getTextDocument();
+        final TextDocument single = new ODPackage(this.getClass().getResourceAsStream("/styles.odt")).getTextDocument();
         try {
             single.add(new Paragraph(XMLFormatVersion.getOOo()));
             fail("Different version");
@@ -595,7 +595,7 @@ public class ODSingleXMLDocumentTest {
 
         // test getParentStyle()
         {
-            final TextDocument textDoc = new ODPackage(this.getClass().getResourceAsStream("styles.odt")).getTextDocument();
+            final TextDocument textDoc = new ODPackage(this.getClass().getResourceAsStream("/styles.odt")).getTextDocument();
             final Paragraph p = textDoc.getParagraph(1);
             assertEquals("paragraph auto style : +14", p.getCharacterContent());
             final ParagraphStyle pStyle = p.getStyle();

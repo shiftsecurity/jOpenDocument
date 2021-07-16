@@ -89,7 +89,7 @@ public class SheetTest extends TestCase {
 
     protected void setUp() throws Exception {
         this.sheet = SpreadSheet.createEmpty(tm, XMLFormatVersion.getOOo()).getSheet(0);
-        this.realSheet = ODPackage.createFromStream(this.getClass().getResourceAsStream("test.fods"), null).getSpreadSheet().getSheet(0);
+        this.realSheet = ODPackage.createFromStream(this.getClass().getResourceAsStream("/test.fods"), null).getSpreadSheet().getSheet(0);
         this.calc2 = null;
     }
 
@@ -101,7 +101,7 @@ public class SheetTest extends TestCase {
 
     public SpreadSheet getCalc2() throws IOException {
         if (this.calc2 == null) {
-            this.calc2 = ODPackage.createFromStream(this.getClass().getResourceAsStream("GroupsAndAddresses.fods"), null).getSpreadSheet();
+            this.calc2 = ODPackage.createFromStream(this.getClass().getResourceAsStream("/GroupsAndAddresses.fods"), null).getSpreadSheet();
         }
         return this.calc2;
     }
@@ -311,7 +311,7 @@ public class SheetTest extends TestCase {
         {
             // test with odt (it has always worked in ods since text:p cannot have style, it is on
             // the cell)
-            final ODPackage doc = new ODPackage(this.getClass().getResourceAsStream("../test.odt"));
+            final ODPackage doc = new ODPackage(this.getClass().getResourceAsStream("/test.odt"));
             final Table<TextDocument> t = new Table<TextDocument>(doc.getTextDocument(), doc.getContent().getDescendantByName("table:table", "JODTestTable"));
             final MutableCell<TextDocument> cell = t.getCellAt(2, 1);
             assertEquals("end", getFirstP(cell).getStyle().getAlignment());
@@ -529,7 +529,7 @@ public class SheetTest extends TestCase {
         // B3 was covering C3, but since the B column is gone C3 is incovered
         assertTrue(this.realSheet.getImmutableCellAt("C3").isValid());
 
-        final ODPackage doc = new ODPackage(this.getClass().getResourceAsStream("../test.odt"));
+        final ODPackage doc = new ODPackage(this.getClass().getResourceAsStream("/test.odt"));
         final Table<ODDocument> t = new Table<ODDocument>(doc.getODDocument(), doc.getContent().getDescendantByName("table:table", "JODTestTable"));
         final Length colW = t.getColumn(1).getWidth();
         Length tableW = t.getWidth();
@@ -948,7 +948,7 @@ public class SheetTest extends TestCase {
         // table-rows
         {
             // http://plugtest.opendocsociety.org/doku.php?id=scenarios:20110715:tabletablewrapper
-            final Sheet plural = new ODPackage(getClass().getResourceAsStream("./rowscolumns-gnumeric.ods")).getSpreadSheet().getSheet(0);
+            final Sheet plural = new ODPackage(getClass().getResourceAsStream("/rowscolumns-gnumeric.ods")).getSpreadSheet().getSheet(0);
             assertEquals(128, plural.getRowCount());
             assertEquals(128, plural.getColumnCount());
             final Integer[][] data = new Integer[][] { { 1, 2, 3 }, { 10, 20, 30 }, { 15, 5, 30 } };
@@ -1115,7 +1115,7 @@ public class SheetTest extends TestCase {
 
         // column styles
         assertEquals(new Length(54.38, LengthUnit.MM), this.realSheet.getColumn(1).getWidth());
-        final SpreadSheet sxc = new ODPackage(this.getClass().getResourceAsStream("test.sxc")).getSpreadSheet();
+        final SpreadSheet sxc = new ODPackage(this.getClass().getResourceAsStream("/test.sxc")).getSpreadSheet();
         assertEquals(new Length(33.85, LengthUnit.MM), sxc.getSheet(0).getColumn(1).getWidth());
 
         // change style

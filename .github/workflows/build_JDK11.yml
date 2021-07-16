@@ -1,0 +1,26 @@
+name: Build with JDK11
+
+on:
+  workflow_dispatch:
+  push:
+  pull_request:
+
+jobs:
+  build-on-jdk11:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up JDK 11
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'adopt'
+          java-version: '11'
+      - name: Build with Maven
+        run: mvn -B package --file pom.xml
+      - name: Publish Test Report
+        if: ${{ always() }}
+        uses: scacap/action-surefire-report@v1
+        with:
+          check_name: JDK11 result

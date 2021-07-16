@@ -2,15 +2,8 @@ name: Maven build
 
 on:
   workflow_dispatch:
-    inputs:
-      date:
-        description: 'date'
-        required: false
   push:
-    branches: [ $default-branch ]
   pull_request:
-    branches: [ $default-branch ]
-
 
 jobs:
   build-on-jdk8:
@@ -24,6 +17,23 @@ jobs:
         with:
           distribution: 'adopt'
           java-version: '8'
+      - name: Build with Maven
+        run: mvn -B package --file pom.xml
+      - name: Publish Test Report
+        if: ${{ always() }}
+        uses: scacap/action-surefire-report@v1
+
+  build-on-jdk11:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up JDK 11
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'adopt'
+          java-version: '11'
       - name: Build with Maven
         run: mvn -B package --file pom.xml
       - name: Publish Test Report

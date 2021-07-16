@@ -182,6 +182,7 @@ public abstract class DataStyle extends Style {
         return this.formatNumberOrScientificNumber(elem, n, 1, defaultStyle);
     }
 
+    // FIXME the code doesn't use cell locale data properly, so anytime decimal point (or else) could follow the runtime environment
     protected final String formatNumberOrScientificNumber(final Element elem, final Number n, final int multiplier, CellStyle defaultStyle) {
         final Namespace numberNS = this.getElement().getNamespace();
         final StringBuilder numberSB = new StringBuilder();

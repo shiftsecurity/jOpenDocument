@@ -762,7 +762,7 @@ public abstract class OOXML implements Comparable<OOXML> {
 
     private static final class XML_OD_1_3 extends XML_OD {
         public XML_OD_1_3() {
-            super("20210623", "1.3", "OpenDocument-v1.3-schema.rng", "OpenDocument-v1.3-manifest-schema.rng");
+            super("20210427", "1.3", "OpenDocument-v1.3-schema.rng", "OpenDocument-v1.3-manifest-schema.rng");
         }
 
         @Override

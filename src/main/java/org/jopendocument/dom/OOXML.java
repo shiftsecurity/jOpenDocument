@@ -86,6 +86,7 @@ public abstract class OOXML implements Comparable<OOXML> {
         register(new XML_OD_1_0());
         register(new XML_OD_1_1());
         register(new XML_OD_1_2());
+        register(new XML_OD_1_3());
 
         final List<OOXML> tmp = new ArrayList<OOXML>(instancesODByDate.size() + 1);
         tmp.add(instanceOO);
@@ -749,6 +750,19 @@ public abstract class OOXML implements Comparable<OOXML> {
     private static final class XML_OD_1_2 extends XML_OD {
         public XML_OD_1_2() {
             super("20110317", "1.2", "OpenDocument-v1.2-schema.rng", "OpenDocument-v1.2-manifest-schema.rng");
+        }
+
+        @Override
+        public Document createManifestDoc() {
+            final Document res = super.createManifestDoc();
+            res.getRootElement().setAttribute("version", getFormatVersion().getOfficeVersion(), res.getRootElement().getNamespace());
+            return res;
+        }
+    }
+
+    private static final class XML_OD_1_3 extends XML_OD {
+        public XML_OD_1_3() {
+            super("20210623", "1.3", "OpenDocument-v1.3-schema.rng", "OpenDocument-v1.3-manifest-schema.rng");
         }
 
         @Override

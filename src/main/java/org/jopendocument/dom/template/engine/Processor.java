@@ -15,6 +15,7 @@
 
 package org.jopendocument.dom.template.engine;
 
+import org.jopendocument.dom.ODPackage;
 import org.jopendocument.dom.template.TemplateException;
 import org.jopendocument.dom.template.statements.Statement;
 import org.jopendocument.dom.OOUtils;
@@ -22,6 +23,7 @@ import org.jopendocument.dom.OOXML;
 import org.jopendocument.util.ExceptionUtils;
 import org.jopendocument.util.JDOMUtils;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -61,6 +63,7 @@ public class Processor<E> {
     public static final String OO_XML = "OOXML:";
     public static final String ENCODE = "%enc:";
     public static final String AS_STR = "%str:";
+    public static final String CHART = "%chart:";
 
     private static Logger logger = Logger.getLogger(Processor.class.getName());
 
@@ -160,6 +163,9 @@ public class Processor<E> {
         final boolean encode = expression.startsWith(ENCODE);
         if (encode)
             expression = expression.substring(ENCODE.length());
+        final boolean chart = expression.startsWith(CHART);
+        if (chart)
+            expression = expression.substring(CHART.length());
 
         field.setName("span");
         field.setNamespace(this.ns.getVersion().getTEXT());
@@ -176,7 +182,28 @@ public class Processor<E> {
             }
             if (logger.isLoggable(Level.FINE))
                 logger.fine("replacing field \"" + expression + "\" with \"" + value + "\"");
-            if (!asString && value instanceof Element) {
+            if (chart) {
+                try {
+                    E whole = this.material.getWhole();
+                    if(whole instanceof ODPackage) {
+                        ODPackage doc = (ODPackage) whole;
+                        ChartSheet chartSheet = (ChartSheet) value;
+                        chartSheet.copyChartObject(doc);
+                        Element elem = chartSheet.getDrawFrameElement(doc);
+                        Element parent = field.getParentElement();
+                        parent.addContent(elem);
+                        parent.removeContent(field);
+                    } else {
+                        throw new TemplateException("Target document should be ODPackage(odt)");
+                    }
+                } catch (ClassCastException e) {
+                    throw ExceptionUtils.createExn(IllegalArgumentException.class, "value should be ObjectReference", e);
+                } catch (IOException e) {
+                    throw ExceptionUtils.createExn(IllegalArgumentException.class, "Illegal ODPackage", e);
+                } catch (JDOMException e) {
+                    throw ExceptionUtils.createExn(IllegalArgumentException.class, "Illegal ODPackage", e);
+                }
+            } else if (!asString && value instanceof Element) {
                 field.setContent(this.getChildren((Element) value));
             } else
                 field.setText(display(value));

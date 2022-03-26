@@ -63,7 +63,6 @@ public class Processor<E> {
     public static final String OO_XML = "OOXML:";
     public static final String ENCODE = "%enc:";
     public static final String AS_STR = "%str:";
-    public static final String CHART = "%chart:";
 
     private static Logger logger = Logger.getLogger(Processor.class.getName());
 
@@ -163,9 +162,6 @@ public class Processor<E> {
         final boolean encode = expression.startsWith(ENCODE);
         if (encode)
             expression = expression.substring(ENCODE.length());
-        final boolean chart = expression.startsWith(CHART);
-        if (chart)
-            expression = expression.substring(CHART.length());
 
         field.setName("span");
         field.setNamespace(this.ns.getVersion().getTEXT());
@@ -182,12 +178,12 @@ public class Processor<E> {
             }
             if (logger.isLoggable(Level.FINE))
                 logger.fine("replacing field \"" + expression + "\" with \"" + value + "\"");
-            if (chart) {
+            if (value instanceof ChartSheet) {
+                ChartSheet chartSheet = (ChartSheet) value;
                 try {
                     E whole = this.material.getWhole();
                     if(whole instanceof ODPackage) {
                         ODPackage doc = (ODPackage) whole;
-                        ChartSheet chartSheet = (ChartSheet) value;
                         chartSheet.copyChartObject(doc);
                         Element elem = chartSheet.getDrawFrameElement(doc);
                         Element parent = field.getParentElement();

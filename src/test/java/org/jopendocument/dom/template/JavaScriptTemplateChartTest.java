@@ -22,6 +22,7 @@ public class JavaScriptTemplateChartTest {
         JavaScriptTemplate template = new JavaScriptTemplate(getClass().getResourceAsStream(ODT_CHART));
 
         File tmpFile = File.createTempFile("jOpenDocument", "chart");
+        tmpFile.deleteOnExit();
         FileUtils.copyToFile(getClass().getResourceAsStream(ODS_CHART), tmpFile);
         SpreadSheet spreadSheet = SpreadSheet.createFromFile(tmpFile);
 
@@ -36,8 +37,6 @@ public class JavaScriptTemplateChartTest {
         assertNotNull(objectElem);
         ODPackageEntry entry1 = doc.getPackage().getEntry(String.format("%s/content.xml", chartSheet.getNewObjectId()));
         assertNotNull(entry1);
-        ODPackageEntry entry2 = doc.getPackage().getEntry(String.format("ObjectReplacements/%s", chartSheet.getNewObjectId()));
-        assertNotNull(entry2);
         //doc.saveToPackageAs(new File("debug-chart.odt"));
     }
 }

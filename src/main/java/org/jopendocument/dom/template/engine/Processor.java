@@ -15,6 +15,7 @@
 
 package org.jopendocument.dom.template.engine;
 
+import org.jopendocument.dom.ODPackage;
 import org.jopendocument.dom.template.TemplateException;
 import org.jopendocument.dom.template.statements.Statement;
 import org.jopendocument.dom.OOUtils;
@@ -22,6 +23,7 @@ import org.jopendocument.dom.OOXML;
 import org.jopendocument.util.ExceptionUtils;
 import org.jopendocument.util.JDOMUtils;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -176,7 +178,28 @@ public class Processor<E> {
             }
             if (logger.isLoggable(Level.FINE))
                 logger.fine("replacing field \"" + expression + "\" with \"" + value + "\"");
-            if (!asString && value instanceof Element) {
+            if (value instanceof ChartSheet) {
+                ChartSheet chartSheet = (ChartSheet) value;
+                try {
+                    E whole = this.material.getWhole();
+                    if(whole instanceof ODPackage) {
+                        ODPackage doc = (ODPackage) whole;
+                        chartSheet.copyChartObject(doc);
+                        Element elem = chartSheet.getDrawFrameElement(doc);
+                        Element parent = field.getParentElement();
+                        parent.addContent(elem);
+                        parent.removeContent(field);
+                    } else {
+                        throw new TemplateException("Target document should be ODPackage(odt)");
+                    }
+                } catch (ClassCastException e) {
+                    throw ExceptionUtils.createExn(IllegalArgumentException.class, "value should be ObjectReference", e);
+                } catch (IOException e) {
+                    throw ExceptionUtils.createExn(IllegalArgumentException.class, "Illegal ODPackage", e);
+                } catch (JDOMException e) {
+                    throw ExceptionUtils.createExn(IllegalArgumentException.class, "Illegal ODPackage", e);
+                }
+            } else if (!asString && value instanceof Element) {
                 field.setContent(this.getChildren((Element) value));
             } else
                 field.setText(display(value));

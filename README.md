@@ -1,8 +1,8 @@
 # jOpenDocument
 
 [![](https://jitpack.io/v/naruoga/jOpenDocument.svg)](https://jitpack.io/#naruoga/jOpenDocument)
-[![Build with JDK8](https://github.com/naruoga/jOpenDocument/actions/workflows/build_JDK8.yml/badge.svg)](https://github.com/naruoga/jOpenDocument/actions/workflows/build_JDK8.yml)
-[![Build with JDK11](https://github.com/naruoga/jOpenDocument/actions/workflows/build_JDK11.yml/badge.svg)](https://github.com/naruoga/jOpenDocument/actions/workflows/build_JDK11.yml)
+[![Build with JDK8](https://github.com/shiftsecurity/jOpenDocument/actions/workflows/build_JDK8.yml/badge.svg)](https://github.com/shiftsecurity/jOpenDocument/actions/workflows/build_JDK8.yml)
+[![Build with JDK11](https://github.com/shiftsecurity/jOpenDocument/actions/workflows/build_JDK11.yml/badge.svg)](https://github.com/shiftsecurity/jOpenDocument/actions/workflows/build_JDK11.yml)
 
 This project is a fork to modernize http://www.jopendocument.org/.
 

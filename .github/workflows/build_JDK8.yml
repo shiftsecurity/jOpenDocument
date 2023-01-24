@@ -21,6 +21,7 @@ jobs:
         run: mvn -B package --file pom.xml
       - name: Publish Test Report
         if: ${{ always() }}
-        uses: scacap/action-surefire-report@v1
+        uses: mikepenz/action-junit-report@v3
         with:
           check_name: JDK8 result
+          report_paths: '**/build/test-results/test/TEST-*.xml'
